@@ -1,0 +1,28 @@
+/**
+ * @param {Object|Array} obj
+ * @return {Object|Array}
+ */
+var compactObject = function(obj) {
+  if (!obj) return;
+
+  if (Array.isArray(obj)) {
+    return obj.filter(Boolean).map(item => compactObject(item));
+  }
+  
+  if (typeof obj === 'object') {
+    const res = {};
+
+    for (let key in obj) {
+      const val = compactObject(obj[key]);
+      if (Boolean(val)) res[key] = val;
+    }
+
+    return res;
+  }
+  
+  return obj;
+};
+
+const obj = {"a": null, "b": [false, 1]};
+
+console.log(compactObject(obj)); // { b: [ 1 ] }
